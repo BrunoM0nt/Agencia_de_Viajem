@@ -1,6 +1,6 @@
 app.initialize();
 
-var db = window.openDatabase("Database", "1.0", "Agenda", 2000);
+var db = window.openDatabase("Database", "1.0", "Agencia", 2000);
 db.transaction(createDB, errorDB, successDB);
 document.addEventListener("deviceready", onDeviceReady, false);
 
@@ -15,7 +15,7 @@ function errorDB(err) {
 function successDB() { }
 
 function createDB(tx) {
-    tx.executeSql('CREATE TABLE IF NOT EXISTS Agencia(id INTEGER PRIMARY KEY, nome VARCHAR(50), qtd_estoque NUM(15),preco float(15))');
+    tx.executeSql('CREATE TABLE IF NOT EXISTS Agencia(id INTEGER PRIMARY KEY, nome VARCHAR(50), qtd_estoque NUM(15),preco NUM(15))');
 }
 
 function agencia_insert() {
