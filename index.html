@@ -10,34 +10,77 @@
         content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
     <meta http-equiv="Content-Security-Policy"
         content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
-
     <link rel="stylesheet" type="text/css" href="css/index.css" />
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-    <title>Pagina Inicial</title>
+    <title>Agência de Viagens</title>
 </head>
 
 <body>
-    <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
-    <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/agencia.js"></script>
+    <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
 
-    <div id="tela_padrao" class="container" align="center">
-            <h2>Menu</h2>
-            <div class="row">
-                <div class="vol-md-12">                 
-                    <input type="button" class="btn btn-lg btn-primary form-control" value="Inserir Pacote de Viajem"> 
-                    <br>
-                    <br>
-                    <input type="button" class="btn btn-lg btn-primary form-control" value="Lista de Pacotes de Viajem"> 
-                    <br>
-                    <br>
-                    <input type="button" class="btn btn-lg btn-primary form-control" value="Carrinho"> <br><br>
-                </div>
+    <input type="hidden" id="agenda_id_delete">
+    <input type="hidden" id="agenda_id_update">
+
+    <div id="menu" class="container" align="center">
+        <h2>Agenda Telefônica</h2>
+        <div class="row">
+            <div class="vol-md-12">
+                <input type="button" class="btn btn-lg btn-primary form-control" value="Cadastrar Pacote de Viajem"
+                    onclick="abrir_tela_cadastro()">
+                <br>
+                <br>
+                <input type="button" class="btn btn-lg btn-primary form-control" value="Lista de Pacotes de Viajem"
+                    onclick="abrir_tela_lista()">
+                <br>
+                <br>
+                <input type="button" class="btn btn-lg btn-primary form-control" value="Carinho">
             </div>
-    
-    <script type="text/javascript">
-        app.initialize();
-    </script>
+        </div>
+    </div>
+
+    <div class="container" id="tela_cadastro" align="center" hidden>
+        <h2>Cadastrar Pacote de Viajem</h2>
+        <div class="row">
+            <div class="col-md-12">
+
+                <h4>Nome</h4>
+                <input type="text" class="form-control" id="nome_pacote">
+                <br>
+                <h4>Quantidade Em Estoque</h4>
+                <input type="text" class="form-control" id="quantidade_estoque">
+                <br>
+                <h4>Preço</h4>
+                <input type="text" class="form-control" id="preco">
+                <br>
+                <br>
+                <input type="button" class="btn btn-lg btn-primary form-control" value="Cadastrar">
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="tela_lista" align="center" hidden>
+        <h2>Lista de Pacotes de Viagens</h2>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th> NOME</th>
+                            <th> Quantidade Em Estoque</th>
+                            <th> Preço</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pacotes_listagem">
+                    </tbody>
+                </table>
+                <br>
+                <br>
+                <input type="button" class="btn btn-lg btn-primary form-control" value="Voltar">
+            </div>
+        </div>
+    </div>
 </body>
 
 </html>
