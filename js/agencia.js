@@ -50,8 +50,33 @@ function agencia_view_data(tx, results) {
             "<td> <h3>" + results.rows.item(i).nome + "</h3> </td >" +
             "<td> <h3>" + results.rows.item(i).qtd_estoque + "</h3> </td >" +
             "<td> <h3>" + results.rows.item(i).preco + "</h3> </td >" +
+            "<td><input type='button' class='btn btn-lg btn-warning' value='Comprar' onclick='view_compra(" + results.rows.item(i).id + ")'>" +
             "<td><input type='button' class='btn btn-lg btn-danger' value='x' + onclick='agenda_delete(" + results.rows.item(i).id + ")'>" +
             //"<input type='button'  class='btn btn-lg btn-warning' value='Add'  onclick='agenda_update_abrir_tela(" + results.rows.item(i).id + ")'></td>" +
+            "</tr>");
+    }
+}
+// Consulta no banco de dados o item selecionado na compra
+function view_compra(compra_id) {
+    $("#agencia_id_compra").val(compra_id);
+    db.transaction(compra_view_db, errorDB, successDB)
+}
+function compra_view_db(tx) {
+    var agencia_id_compra = $("#agencia_id_compra").val();
+    $("#tela_lista").hide();
+    $("#tela_compra").show();
+    tx.executeSql('SELECT * FROM Agencia where id = ' + agencia_id_compra + '', [], agencia_view_compra, errorDB);
+}
+
+function agencia_view_compra(tx, results) {
+    $("#listagem_compra").empty();
+    var len = results.rows.length;
+    for (var i = 0; i < len; i++) {
+        $("#listagem_compra").append("<tr class='compra_item_lista'>" +
+            "<td> <h3>" + results.rows.item(i).nome + "</h3> </td >" +
+            "<td> <h3>" + results.rows.item(i).qtd_estoque + "</h3> </td >" +
+            "<td> <h3>" + results.rows.item(i).preco + "</h3> </td >" +
+            "<td><br><input type='text' class='form-control'>" + "" +
             "</tr>");
     }
 }
@@ -59,7 +84,7 @@ function agencia_view_data(tx, results) {
 function agenda_delete(agencia_id) {
     document.getElementById('agenda_id_delete').value = agencia_id;
     db.transaction(agenda_delete_db, errorDB, successDB)
-} 
+}
 
 function agenda_delete_db(tx) {
     alert("Item removido da lista!")
@@ -103,4 +128,8 @@ function abrir_tela_carrinho() {
 function fechar_tela_carrinho() {
     $("#menu").show();//escode tela menu
     $("#tela_carrinho").hide(); // mostra tela lista
+}
+function fechar_tela_compra() {
+    $("#tela_compra").hide();
+    $("#tela_lista").show();
 }
