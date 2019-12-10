@@ -32,10 +32,11 @@
                 <br>
                 <br>
                 <input type="button" class="btn btn-lg btn-primary form-control" value="Lista de Pacotes de Viajem"
-                    onclick="abrir_tela_lista()">
+                    onclick="abrir_tela_lista(),agencia_view()">
                 <br>
                 <br>
-                <input type="button" class="btn btn-lg btn-primary form-control" value="Carinho">
+                <input type="button" class="btn btn-lg btn-primary form-control" value="Carinho"
+                    onclick="abrir_tela_carrinho()">
             </div>
         </div>
     </div>
@@ -55,8 +56,10 @@
                 <input type="text" class="form-control" id="pacote_preco">
                 <br>
                 <br>
-                <input type="button" class="btn btn-lg btn-primary form-control" value="Cadastrar"
-                    onclick="agencia_insert()">
+                <input type="button" class="btn btn-lg btn-primary form-control" value="Cadastrar" 
+                onclick="agencia_insert()">
+                <input type="button" class="btn btn-lg btn-primary form-control" value="Voltar" 
+                onclick="fechar_tela_cadastro()">
             </div>
         </div>
     </div>
@@ -78,10 +81,34 @@
                 </table>
                 <br>
                 <br>
-                <input type="button" class="btn btn-lg btn-primary form-control" value="Voltar">
+                <input type="button" class="btn btn-lg btn-primary form-control" value="Voltar" 
+                onclick="fechar_tela_lista()">
             </div>
         </div>
     </div>
+
+    <div class="container" id="tela_carrinho" align="center" hidden>
+        <h2>Cadastrar Pacote de Viajem</h2>
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Nome</h4>
+                <input type="text" class="form-control" id="nome_pacote">
+                <br>
+                <h4>Quantidade Em Estoque</h4>
+                <input type="text" class="form-control" id="quantidade_estoque">
+                <br>
+                <h4>Preço</h4>
+                <input type="text" class="form-control" id="pacote_preco">
+                <br>
+                <br>
+                <input type="button" class="btn btn-lg btn-primary form-control" value="Cadastrar" 
+                onclick="agencia_insert()">
+                <input type="button" class="btn btn-lg btn-primary form-control" value="Voltar" 
+                onclick="fechar_tela_carrinho()">
+            </div>
+        </div>
+    </div>
+
 </body>
 
 </html>
