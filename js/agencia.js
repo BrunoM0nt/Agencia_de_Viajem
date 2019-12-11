@@ -76,7 +76,8 @@ function agencia_view_compra(tx, results) {
             "<td> <h3>" + results.rows.item(i).nome + "</h3> </td >" +
             "<td> <h3>" + results.rows.item(i).qtd_estoque + "</h3> </td >" +
             "<td> <h3>" + results.rows.item(i).preco + "</h3> </td >" +
-            "<td><br><input type='text' class='form-control'>" + "" +
+            "<td><br><input id='qtd_compra' type='text' class='form-control'>" +
+            "<td><br><input type='button' class='btn btn-lg btn-warning' value='Confirmar Compra' onclick='view_compra(" + results.rows.item(i).id + ")'>" +
             "</tr>");
     }
 }
