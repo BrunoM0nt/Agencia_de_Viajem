@@ -20,7 +20,12 @@
     <script type="text/javascript" src="js/agencia.js"></script>
     <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
 
-    <input type="hidden" id="agencia_id_compra">
+    <input type="hidden" id="id_compra">
+    <input type="hidden" id="id_delete">
+    <input type="hidden" id="prod_id">
+    <input type="hidden" id="prod_nome">
+    <input type="hidden" id="prod_qtd">
+
     <!-- Menu -->
     <div id="menu" class="container" align="center">
         <h2>Agenda Telefônica</h2>
@@ -86,22 +91,23 @@
         </div>
     </div>
     <!-- Tela carrinho de compras-->
-    <div class="container" id="tela_carrinho" align="center" hidden>
-        <h2>Cadastrar Pacote de Viajem</h2>
+    <div class=" container" id="tela_carrinho" align="center" hidden>
+        <h2>Lista de Pacotes de Viagens</h2>
         <div class="row">
             <div class="col-md-12">
-                <h4>Nome</h4>
-                <input type="text" class="form-control" id="nome_pacote">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th> NOME</th>
+                            <th> Quantidade Em Estoque</th>
+                            <th> Preço</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pacotes_compra">
+                    </tbody>
+                </table>
                 <br>
-                <h4>Quantidade Em Estoque</h4>
-                <input type="text" class="form-control" id="quantidade_estoque">
                 <br>
-                <h4>Preço</h4>
-                <input type="text" class="form-control" id="pacote_preco">
-                <br>
-                <br>
-                <input type="button" class="btn btn-lg btn-primary form-control" value="Cadastrar"
-                    onclick="agencia_insert()">
                 <input type="button" class="btn btn-lg btn-primary form-control" value="Voltar"
                     onclick="fechar_tela_carrinho()">
             </div>
@@ -130,7 +136,8 @@
                 <br>
                                 
                 <input type="button" class="btn btn-lg btn-primary form-control" value="Voltar"
-                    onclick="fechar_tela_compra()">
+                onclick="fechar_tela_compra()">
+                
             </div>
         </div>
     </div>
