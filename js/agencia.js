@@ -56,12 +56,12 @@ function agencia_view_data(tx, results) {
             "<td> <h3>" + results.rows.item(i).qtd_estoque + "</h3> </td >" +
             "<td> <h3>" + results.rows.item(i).preco + "</h3> </td >" +
             "<td><input type='button' class='btn btn-lg btn-warning' value='Comprar'+ onclick='view_compra(" + results.rows.item(i).id + ")'>" +
-            "<td><input type='button' class='btn btn-lg btn-danger' value='x' + onclick='agenda_delete(" + results.rows.item(i).id + ")'>" +
+            "<td><input type='button' class='btn btn-lg btn-danger' value='x' + onclick='agencia_delete(" + results.rows.item(i).id + ")'>" +
             "</tr>");
     }
 }
 
-// Consulta no banco de dados o item selecionado na compra
+// Consulta no banco de dados o item selecionado e pede a quantidade que sera comprada
 function view_compra(compra_id) {
     $("#id_compra").val(compra_id);
 
@@ -105,15 +105,20 @@ function carrinho_insert_db(tx) {
     var precos = $("#prod_preco").val();
     var quanti_estoq = $("#prod_qtd").val();
     var update_estoque = quanti_estoq - qt_compra;
-    // insere os dados das varaiveis no db carrinho os dados da compra
-    tx.executeSql('INSERT INTO Carrinho (id_prod,nome,preco,qtd_compra) VALUES ("' + id_carrinho_compra + '","' + nome + '","' + precos + '","' + qt_compra + '")');
-    alert("Produto Enviado Para o Carrinho");
-    //Atualiza a quantidade estoque da quantidade comprada
-    tx.executeSql('UPDATE Agencia SET qtd_estoque ="' + update_estoque + '" WHERE id= "' + id_carrinho_compra + '"');
-    agencia_view();
+    
+    if (qt_compra == "") {
+        alert("Informa a Quantidade que Deseja Comprar");
+    } else {
+        // insere  os dados da compra no db carrinho 
+        tx.executeSql('INSERT INTO Carrinho (id_prod,nome,preco,qtd_compra) VALUES ("' + id_carrinho_compra + '","' + nome + '","' + precos + '","' + qt_compra + '")');
+        alert("Produto Enviado Para o Carrinho");
+        //Atualiza a quantidade estoque da quantidade comprada
+        tx.executeSql('UPDATE Agencia SET qtd_estoque ="' + update_estoque + '" WHERE id= "' + id_carrinho_compra + '"');
+        agencia_view();
+    }
 }
 
-//exibe no carrinho de compras os selecionados
+//exibe no carrinho de compras os pacotes selecionados
 function carrinho_view() {
     db.transaction(carrinho_view_db, errorDB, successDB)
 }
@@ -148,14 +153,14 @@ function compra_view_data(tx, results) {
             "<td> <h3>" + results.rows.item(i).qtd_estoque + "</h3> </td >" +
             "<td> <h3>" + results.rows.item(i).preco + "</h3> </td >" +
             "<td><input type='button' class='btn btn-lg btn-danger' value='x' + onclick='compra_item_delete(" + results.rows.item(i).id + ")'>" +
-            //"<input type='button'  class='btn btn-lg btn-warning' value='Add'  onclick='agenda_update_abrir_tela(" + results.rows.item(i).id + ")'></td>" +
             "</tr>");
     }
 }
-// Função que limpa o carrinho de compras após finalizar compra
+// Funçõe que limpa o carrinho de compras após finalizar compra
 function carrinho_delete() {
     db.transaction(carrinho_delete_db, errorDB, successDB)
 }
+
 
 function carrinho_delete_db(tx) {
     tx.executeSql("delete FROM Carrinho");
@@ -174,12 +179,14 @@ function compra_item_delete_db(tx) {
     agencia_view();
 }
 
-function agenda_delete(agencia_id) {
+//funçõe que deleta um pacote Cadastrados
+
+function agencia_delete(agencia_id) {
     document.getElementById('id_delete').value = agencia_id;
-    db.transaction(agenda_delete_db, errorDB, successDB)
+    db.transaction(agencia_delete_db, errorDB, successDB)
 }
 
-function agenda_delete_db(tx) {
+function agencia_delete_db(tx) {
     alert("Item removido da lista!")
     tx.executeSql("delete from Agencia where id = '" + document.getElementById('id_delete').value + "'");
     agencia_view();
@@ -194,7 +201,7 @@ function limpar() {
 }
 
 
-
+// funções de troca de tela
 function abrir_tela_menu() {
     $("#tela_compra").hide();
     $("#tela_carrinho").hide();
