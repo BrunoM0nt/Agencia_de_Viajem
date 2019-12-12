@@ -21,10 +21,12 @@
     <script type="text/javascript" src="js/jquery-1.12.4.min.js"></script>
 
     <input type="hidden" id="id_compra">
+    <input type="hidden" id="id_carrinho">
     <input type="hidden" id="id_delete">
     <input type="hidden" id="prod_id">
     <input type="hidden" id="prod_nome">
     <input type="hidden" id="prod_qtd">
+    <input type="hidden" id="prod_preco">
 
     <!-- Menu -->
     <div id="menu" class="container" align="center">
@@ -40,7 +42,7 @@
                 <br>
                 <br>
                 <input type="button" class="btn btn-lg btn-primary form-control" value="Carinho"
-                    onclick="abrir_tela_carrinho()">
+                    onclick="abrir_tela_carrinho(),carrinho_view()">
             </div>
         </div>
     </div>
@@ -101,6 +103,9 @@
                             <th> NOME</th>
                             <th> Quantidade Em Estoque</th>
                             <th> Preço</th>
+                            <th> Quantida a Comprar</th>
+                            <th> Preço Toral a Pagar</th>
+
                         </tr>
                     </thead>
                     <tbody id="pacotes_compra">
@@ -108,8 +113,10 @@
                 </table>
                 <br>
                 <br>
+                <input type="button" class="btn btn-lg btn-primary form-control" value="Finalizar Compra" onclick="()">
                 <input type="button" class="btn btn-lg btn-primary form-control" value="Voltar"
                     onclick="fechar_tela_carrinho()">
+
             </div>
         </div>
     </div>
@@ -123,7 +130,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th> NOME</th>
+                            <th id="nome_compra"> NOME</th>
                             <th> Quantidade Em Estoque</th>
                             <th> Preço</th>
                             <th> Quantidade Para Compra</th>
@@ -134,10 +141,10 @@
                 </table>
                 <br>
                 <br>
-                                
+
                 <input type="button" class="btn btn-lg btn-primary form-control" value="Voltar"
-                onclick="fechar_tela_compra()">
-                
+                    onclick="fechar_tela_compra()">
+
             </div>
         </div>
     </div>

@@ -1,5 +1,8 @@
 app.initialize();
 
+var codigos = new Array();
+var x = 0;
+
 var db = window.openDatabase("Database", "1.0", "Agencia", 2000); //Nota: window.openDatabase não funciona em Firefox
 db.transaction(createDB, errorDB, successDB);
 document.addEventListener("deviceready", onDeviceReady, false);
@@ -16,7 +19,7 @@ function successDB() { }
 
 function createDB(tx) {
     tx.executeSql('CREATE TABLE IF NOT EXISTS Agencia(id INTEGER PRIMARY KEY, nome VARCHAR(50) , qtd_estoque NUM(15),preco NUM(15))');
-    tx.executeSql('CREATE TABLE IF NOT EXISTS Carrinho(id_Compra INTEGER PRIMARY KEY, id_prod NUM(15), qtd NUM(15))');
+    tx.executeSql('CREATE TABLE IF NOT EXISTS Carrinho(id_Compra INTEGER PRIMARY KEY,nome VARCHAR(50) , id_prod NUM(15),preco num(15), quanti_estoque NUM(15),qtd_compra NUM(15))');
 }
 
 function agencia_insert() {
@@ -32,6 +35,7 @@ function agencia_insert_db(tx) {
     limpar();
 
 }
+
 
 function agencia_view() {
     db.transaction(agencia_view_db, errorDB, successDB)
@@ -51,25 +55,26 @@ function agencia_view_data(tx, results) {
             "<td> <h3>" + results.rows.item(i).nome + "</h3> </td >" +
             "<td> <h3>" + results.rows.item(i).qtd_estoque + "</h3> </td >" +
             "<td> <h3>" + results.rows.item(i).preco + "</h3> </td >" +
-            "<td><input type='button' class='btn btn-lg btn-warning' value='Comprar' onclick='compra_tela(" + results.rows.item(i).id + ")'>" +
+            "<td><input type='button' class='btn btn-lg btn-warning' value='Comprar'+ onclick='view_compra(" + results.rows.item(i).id + ")'>" +
             "<td><input type='button' class='btn btn-lg btn-danger' value='x' + onclick='agenda_delete(" + results.rows.item(i).id + ")'>" +
             "</tr>");
     }
 }
+
 // Consulta no banco de dados o item selecionado na compra
-function compra_tela(compra_id) {
+function view_compra(compra_id) {
     $("#id_compra").val(compra_id);
+
     db.transaction(compra_view_db, errorDB, successDB)
 }
-function compra_tela_db(tx) {
-    var id_compra = $("#id_compra").val();
+function compra_view_db(tx) {
+    var agencia_id_compra = $("#id_compra").val();
     $("#tela_lista").hide();
     $("#tela_compra").show();
-    tx.executeSql('SELECT * FROM Agencia where id = ' + id_compra + '', [], compra_tela_data, errorDB);
+    tx.executeSql('SELECT * FROM Agencia where id = ' + agencia_id_compra + '', [], agencia_view_compra, errorDB);
 }
 
-//Compras ------------------+
-function compra_tela_data(tx, results) {
+function agencia_view_compra(tx, results) {
     $("#listagem_compra").empty();
     var len = results.rows.length;
     for (var i = 0; i < len; i++) {
@@ -77,32 +82,57 @@ function compra_tela_data(tx, results) {
             "<td> <h3>" + results.rows.item(i).nome + "</h3> </td >" +
             "<td> <h3>" + results.rows.item(i).qtd_estoque + "</h3> </td >" +
             "<td> <h3>" + results.rows.item(i).preco + "</h3> </td >" +
-            "<td><br><input id='qtd_compra' type='text' class='form-control'>" +
-            "<td><br><input type='button' class='btn btn-lg btn-warning' value='Continuar Compra' onclick='continuar_compra(" + results.rows.item(i).id + ", " + $('qtd_compra').val() +")'>" +
+            //envia os dados do pacote comprado para variavel html
+            $("#prod_nome").val(results.rows.item(i).nome) +
+            $("#prod_qtd").val(results.rows.item(i).qtd_estoque) +
+            $("#prod_preco").val(results.rows.item(i).preco) +
+            $("#id_carrinho").val(results.rows.item(i).id) +
+            "<td><br><input id='qtd_para_compra' + type='text' + class='form-control'>" + "" +//campo que recebe a quantidade que sera comprada
+            "<td><br><input type='button' class='btn btn-lg btn-warning' value='Confirmar Comprar'+ onclick='view_carrinho(" + results.rows.item(i).id + ")'>" +
             "</tr>");
     }
 }
 
-function continuar_compra(prod_id, prod_qtd){
-    $("#prod_id").val(prod_id);
-    $("#prod_qtd").val(prod_qtd);
-    alert(prod_qtd)
-    db.transaction(continuar_compra_db, errorDB, successDB)
+// insere no db carrinho os dados da compra
+function view_carrinho() {
+    db.transaction(carrinho_insert_db, errorDB, successDB)
+}
+function carrinho_insert_db(tx) {
+    //recebe os dados das variaveis html
+    var qt_compra = $("#qtd_para_compra").val();
+    var id_carrinho_compra = $("#id_carrinho").val();
+    var nome = $("#prod_nome").val();
+    var quanti_estoque = $("#prod_qtd").val();
+    var precos = $("#prod_preco").val();
+    // insere os dados das varaiveis no db carrinho os dados da compra
+    tx.executeSql('INSERT INTO Carrinho (id_prod,nome,preco,quanti_estoque,qtd_compra) VALUES ("' + id_carrinho_compra + '","' + nome + '","' + precos + '","' + quanti_estoque + '","' + qt_compra + '")');
+
 }
 
-function continuar_compra_db(tx){
-    tx.executeSql("INSERT INTO carrinho (id_prod, qtd) VALUES('" + $("#prod_id").val() + "', '" + $("#prod_qtd").val() + "')")
-    alert($("#prod_id").val())
-    alert($("#prod_qtd").val())
+//exibe no carrinho de compras os selecionados
+function carrinho_view() {
+    db.transaction(carrinho_view_db, errorDB, successDB)
 }
 
-function compra_view() {
-    db.transaction(compra_view_db, errorDB, successDB)
+function carrinho_view_db(tx) {
+    tx.executeSql('SELECT * FROM Carrinho', [], carrinho_view_data, errorDB);
 }
 
-function compra_view_db(tx) {
-    tx.executeSql('SELECT * FROM produtos', [], compra_view_data, errorDB);
+function carrinho_view_data(tx, results) {
+    $("#pacotes_compra").empty();
+    var len = results.rows.length;
+
+    for (var i = 0; i < len; i++) {
+        $("#pacotes_compra").append("<tr class='carrinho_item_lista'>" +
+            "<td> <h3>" + results.rows.item(i).nome + "</h3> </td >" +
+            "<td> <h3>" + results.rows.item(i).quanti_estoque + "</h3> </td >" +
+            "<td> <h3>" + results.rows.item(i).preco + "</h3> </td >" +
+            "<td> <h3>" + results.rows.item(i).qtd_compra + "</h3> </td >" +
+            "<td> <h3>" + results.rows.item(i).qtd_compra * results.rows.item(i).preco + "</h3> </td >" +
+            "</tr>");
+    }
 }
+
 
 //Apresentação de dados ------------------+
 function compra_view_data(tx, results) {
@@ -186,3 +216,4 @@ function fechar_tela_compra() {
     $("#tela_compra").hide();
     $("#tela_lista").show();
 }
+
