@@ -41,7 +41,7 @@
                     onclick="abrir_tela_lista(),agencia_view()">
                 <br>
                 <br>
-                <input type="button" class="btn btn-lg btn-primary form-control" value="Carinho"
+                <input type="button" class="btn btn-lg btn-primary form-control" value="Carrinho de Compras"
                     onclick="abrir_tela_carrinho(),carrinho_view()">
             </div>
         </div>
@@ -58,7 +58,7 @@
                 <h4>Quantidade Em Estoque</h4>
                 <input type="text" class="form-control" id="quantidade_estoque">
                 <br>
-                <h4>Preço</h4>
+                <h4>Preço Unitário</h4>
                 <input type="text" class="form-control" id="pacote_preco">
                 <br>
                 <br>
@@ -67,7 +67,7 @@
                 <br>
                 <br>
                 <input type="button" class="btn btn-lg btn-primary form-control" value="Voltar"
-                    onclick="fechar_tela_cadastro()">
+                    onclick=" abrir_tela_menu()">
             </div>
         </div>
     </div>
@@ -81,7 +81,7 @@
                         <tr>
                             <th> NOME</th>
                             <th> Quantidade Em Estoque</th>
-                            <th> Preço</th>
+                            <th> Preço Unitário</th>
                         </tr>
                     </thead>
                     <tbody id="pacotes_listagem">
@@ -90,7 +90,7 @@
                 <br>
                 <br>
                 <input type="button" class="btn btn-lg btn-primary form-control" value="Voltar"
-                    onclick="fechar_tela_lista()">
+                    onclick=" abrir_tela_menu()">
             </div>
         </div>
     </div>
@@ -103,8 +103,7 @@
                     <thead>
                         <tr>
                             <th> NOME</th>
-                            <th> Quantidade Em Estoque</th>
-                            <th> Preço</th>
+                            <th> Preço Unitário</th>
                             <th> Quantida a Comprar</th>
                             <th> Preço Total a Pagar</th>
 
@@ -120,7 +119,7 @@
                 <br>
                 <br>
                 <input type="button" class="btn btn-lg btn-primary form-control" value="Voltar"
-                    onclick="fechar_tela_carrinho()">
+                    onclick=" abrir_tela_menu()">
 
             </div>
         </div>
@@ -137,7 +136,7 @@
                         <tr>
                             <th id="nome_compra"> NOME</th>
                             <th> Quantidade Em Estoque</th>
-                            <th> Preço</th>
+                            <th> Preço Unitário</th>
                             <th> Quantidade Para Compra</th>
                         </tr>
                     </thead>

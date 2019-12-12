@@ -19,7 +19,7 @@ function successDB() { }
 
 function createDB(tx) {
     tx.executeSql('CREATE TABLE IF NOT EXISTS Agencia(id INTEGER PRIMARY KEY, nome VARCHAR(50) , qtd_estoque NUM(15),preco NUM(15))');
-    tx.executeSql('CREATE TABLE IF NOT EXISTS Carrinho(id_Compra INTEGER PRIMARY KEY,nome VARCHAR(50) , id_prod NUM(15),preco num(15), quanti_estoque NUM(15),qtd_compra NUM(15))');
+    tx.executeSql('CREATE TABLE IF NOT EXISTS Carrinho(id_Compra INTEGER PRIMARY KEY,nome VARCHAR(50) , id_prod NUM(15),preco num(15),qtd_compra NUM(15))');
 }
 
 function agencia_insert() {
@@ -102,10 +102,9 @@ function carrinho_insert_db(tx) {
     var qt_compra = $("#qtd_para_compra").val();
     var id_carrinho_compra = $("#id_carrinho").val();
     var nome = $("#prod_nome").val();
-    var quanti_estoque = $("#prod_qtd").val();
     var precos = $("#prod_preco").val();
     // insere os dados das varaiveis no db carrinho os dados da compra
-    tx.executeSql('INSERT INTO Carrinho (id_prod,nome,preco,quanti_estoque,qtd_compra) VALUES ("' + id_carrinho_compra + '","' + nome + '","' + precos + '","' + quanti_estoque + '","' + qt_compra + '")');
+    tx.executeSql('INSERT INTO Carrinho (id_prod,nome,preco,qtd_compra) VALUES ("' + id_carrinho_compra + '","' + nome + '","' + precos + '","' + qt_compra + '")');
     alert("Produto Enviado Para o Carrinho");
 
 }
@@ -126,7 +125,6 @@ function carrinho_view_data(tx, results) {
     for (var i = 0; i < len; i++) {
         $("#pacotes_compra").append("<tr class='carrinho_item_lista'>" +
             "<td> <h3>" + results.rows.item(i).nome + "</h3> </td >" +
-            "<td> <h3>" + results.rows.item(i).quanti_estoque + "</h3> </td >" +
             "<td> <h3>" + results.rows.item(i).preco + "</h3> </td >" +
             "<td> <h3>" + results.rows.item(i).qtd_compra + "</h3> </td >" +
             "<td> <h3>" + results.rows.item(i).qtd_compra * results.rows.item(i).preco + "</h3> </td >" +
@@ -191,35 +189,31 @@ function limpar() {
     }
 }
 
-function abrir_tela_cadastro() {
-    $("#menu").hide();//escode tela menu
-    $("#tela_cadastro").show(); // mostra tela de cadastro
+
+
+function abrir_tela_menu() {
+    $("#tela_compra").hide();
+    $("#tela_carrinho").hide();
+    $("#tela_lista").hide();
+    $("#tela_cadastro").hide();
+    $("#menu").show();
 }
 
-function fechar_tela_cadastro() {
-    $("#menu").show();//escode tela menu
-    $("#tela_cadastro").hide(); // mostra tela de cadastro
+function abrir_tela_cadastro() {
+    $("#menu").hide();
+    $("#tela_cadastro").show();
 }
 
 function abrir_tela_lista() {
-    $("#menu").hide();//escode tela menu
-    $("#tela_lista").show(); // mostra tela lista
-}
-
-function fechar_tela_lista() {
-    $("#menu").show();//escode tela menu
-    $("#tela_lista").hide(); // mostra tela lista
+    $("#menu").hide();
+    $("#tela_lista").show();
 }
 
 function abrir_tela_carrinho() {
-    $("#menu").hide();//escode tela menu
-    $("#tela_carrinho").show(); // mostra tela lista
+    $("#menu").hide();
+    $("#tela_carrinho").show();
 }
 
-function fechar_tela_carrinho() {
-    $("#menu").show();//escode tela menu
-    $("#tela_carrinho").hide(); // mostra tela lista
-}
 function fechar_tela_compra() {
     $("#tela_compra").hide();
     $("#tela_lista").show();
