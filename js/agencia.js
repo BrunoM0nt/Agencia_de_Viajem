@@ -88,13 +88,13 @@ function agencia_view_compra(tx, results) {
             $("#prod_preco").val(results.rows.item(i).preco) +
             $("#id_carrinho").val(results.rows.item(i).id) +
             "<td><br><input id='qtd_para_compra' + type='text' + class='form-control'>" + "" +//campo que recebe a quantidade que sera comprada
-            "<td><br><input type='button' class='btn btn-lg btn-warning' value='Confirmar Comprar'+ onclick='view_carrinho(" + results.rows.item(i).id + ")'>" +
+            "<td><br><input type='button' class='btn btn-lg btn-warning' value='Confirmar Comprar'+ onclick='insert_carrinho(" + results.rows.item(i).id + ")'>" +
             "</tr>");
     }
 }
 
 // insere no db carrinho os dados da compra
-function view_carrinho() {
+function insert_carrinho() {
     db.transaction(carrinho_insert_db, errorDB, successDB)
 }
 function carrinho_insert_db(tx) {
@@ -106,6 +106,7 @@ function carrinho_insert_db(tx) {
     var precos = $("#prod_preco").val();
     // insere os dados das varaiveis no db carrinho os dados da compra
     tx.executeSql('INSERT INTO Carrinho (id_prod,nome,preco,quanti_estoque,qtd_compra) VALUES ("' + id_carrinho_compra + '","' + nome + '","' + precos + '","' + quanti_estoque + '","' + qt_compra + '")');
+    alert("Produto Enviado Para o Carrinho");
 
 }
 
@@ -149,6 +150,16 @@ function compra_view_data(tx, results) {
             "</tr>");
     }
 }
+// Função que limpa o carrinho de compras após finalizar compra
+function carrinho_delete() {
+    db.transaction(carrinho_delete_db, errorDB, successDB)
+}
+
+function carrinho_delete_db(tx) {
+    tx.executeSql("delete FROM Carrinho");
+    alert("Compra Realizada Com Sucesso");
+    carrinho_view();
+}
 
 function compra_item_delete(agencia_id) {
     document.getElementById('id_delete').value = agencia_id;
@@ -172,9 +183,6 @@ function agenda_delete_db(tx) {
     agencia_view();
 }
 
-
-
-0
 function limpar() {
     if (document.getElementById('nome_pacote').value != "" || document.getElementById('quantidade_estoque').value != "" || document.getElementById('pacote_preco').value != "") {
         document.getElementById('nome_pacote').value = "";

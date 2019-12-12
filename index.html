@@ -30,7 +30,7 @@
 
     <!-- Menu -->
     <div id="menu" class="container" align="center">
-        <h2>Agenda Telefônica</h2>
+        <h2>Agência de Viagens</h2>
         <div class="row">
             <div class="vol-md-12">
                 <input type="button" class="btn btn-lg btn-primary form-control" value="Cadastrar Pacote de Viajem"
@@ -64,6 +64,8 @@
                 <br>
                 <input type="button" class="btn btn-lg btn-primary form-control" value="Cadastrar"
                     onclick="agencia_insert()">
+                <br>
+                <br>
                 <input type="button" class="btn btn-lg btn-primary form-control" value="Voltar"
                     onclick="fechar_tela_cadastro()">
             </div>
@@ -94,7 +96,7 @@
     </div>
     <!-- Tela carrinho de compras-->
     <div class=" container" id="tela_carrinho" align="center" hidden>
-        <h2>Lista de Pacotes de Viagens</h2>
+        <h2>Carrinho de Compras</h2>
         <div class="row">
             <div class="col-md-12">
                 <table class="table">
@@ -104,7 +106,7 @@
                             <th> Quantidade Em Estoque</th>
                             <th> Preço</th>
                             <th> Quantida a Comprar</th>
-                            <th> Preço Toral a Pagar</th>
+                            <th> Preço Total a Pagar</th>
 
                         </tr>
                     </thead>
@@ -113,7 +115,10 @@
                 </table>
                 <br>
                 <br>
-                <input type="button" class="btn btn-lg btn-primary form-control" value="Finalizar Compra" onclick="()">
+                <input type="button" class="btn btn-lg btn-primary form-control" value="Finalizar Compra"
+                    onclick="carrinho_delete()">
+                <br>
+                <br>
                 <input type="button" class="btn btn-lg btn-primary form-control" value="Voltar"
                     onclick="fechar_tela_carrinho()">
 
