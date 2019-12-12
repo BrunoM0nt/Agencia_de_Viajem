@@ -103,10 +103,14 @@ function carrinho_insert_db(tx) {
     var id_carrinho_compra = $("#id_carrinho").val();
     var nome = $("#prod_nome").val();
     var precos = $("#prod_preco").val();
+    var quanti_estoq = $("#prod_qtd").val();
+    var update_estoque = quanti_estoq - qt_compra;
     // insere os dados das varaiveis no db carrinho os dados da compra
     tx.executeSql('INSERT INTO Carrinho (id_prod,nome,preco,qtd_compra) VALUES ("' + id_carrinho_compra + '","' + nome + '","' + precos + '","' + qt_compra + '")');
     alert("Produto Enviado Para o Carrinho");
-
+    //Atualiza a quantidade estoque da quantidade comprada
+    tx.executeSql('UPDATE Agencia SET qtd_estoque ="' + update_estoque + '" WHERE id= "' + id_carrinho_compra + '"');
+    agencia_view();
 }
 
 //exibe no carrinho de compras os selecionados
@@ -125,9 +129,9 @@ function carrinho_view_data(tx, results) {
     for (var i = 0; i < len; i++) {
         $("#pacotes_compra").append("<tr class='carrinho_item_lista'>" +
             "<td> <h3>" + results.rows.item(i).nome + "</h3> </td >" +
-            "<td> <h3>" + results.rows.item(i).preco + "</h3> </td >" +
+            "<td> <h3>" + ' R$' + results.rows.item(i).preco + "</h3> </td >" +
             "<td> <h3>" + results.rows.item(i).qtd_compra + "</h3> </td >" +
-            "<td> <h3>" + results.rows.item(i).qtd_compra * results.rows.item(i).preco + "</h3> </td >" +
+            "<td> <h3>" + ' R$' + results.rows.item(i).qtd_compra * results.rows.item(i).preco + "</h3> </td >" +
             "</tr>");
     }
 }
