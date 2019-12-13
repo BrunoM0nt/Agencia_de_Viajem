@@ -7,16 +7,9 @@ body {
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
     background-color:#E4E4E4;
-    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
-    background-image:-webkit-gradient(
-        linear,
-        left top,
-        left bottom,
-        color-stop(0, #A7A7A7),
-        color-stop(0.51, #E4E4E4)
-    );
+    background-image: url("../img/travel.jpg");
+    background-size: 700px 1200px;
+    background-repeat: no-repeat;
     background-attachment:fixed;
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
@@ -25,6 +18,21 @@ body {
     padding:0px;
     text-transform:uppercase;
     width:100%;
+}
+
+#Menu_Name{
+    background-color: #333333;
+    color: white;
+    font-family: fantasy;
+    margin-left: 90px;
+    margin-right: 90px;
+    border-radius: 25px;
+}
+
+#pacotes_listagem, #pacotes_compra, #listagem_compra{
+    background-color:#A69D92;
+    border-style: solid;
+    border-color: #735C32;
 }
 
 /* Portrait layout (default) */

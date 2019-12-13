@@ -30,10 +30,19 @@ function agencia_insert_db(tx) {
     var nome = $("#nome_pacote").val();
     var qtd_estoque = $("#quantidade_estoque").val();
     var preco = $("#pacote_preco").val();
-    tx.executeSql('INSERT INTO Agencia (nome,qtd_estoque,preco) VALUES ("' + nome + '","' + qtd_estoque + '","' + preco + '")');
-    alert("Cadastrado Com Sucesso");
-    limpar();
+    
+    if(nome == "" || qtd_estoque == "" || preco == ""){
+        alert("Existem campos em branco!\nLembre-se de utilizar as informações corretas!")
+    }
+    else if(isNaN(qtd_estoque) || isNaN(preco)){
+        alert("Existem letras onde deveriam ser numeros!\nLembre-se de utilizar as informações corretas!")
+    }else{
+        tx.executeSql('INSERT INTO Agencia (nome,qtd_estoque,preco) VALUES ("' + nome + '","' + qtd_estoque + '","' + preco + '")');
+        alert("Cadastrado Com Sucesso");
+        limpar();
 
+    }
+    
 }
 
 
@@ -69,8 +78,7 @@ function view_compra(compra_id) {
 }
 function compra_view_db(tx) {
     var agencia_id_compra = $("#id_compra").val();
-    $("#tela_lista").hide();
-    $("#tela_compra").show();
+    abrir_tela_compra();
     tx.executeSql('SELECT * FROM Agencia where id = ' + agencia_id_compra + '', [], agencia_view_compra, errorDB);
 }
 
@@ -82,11 +90,13 @@ function agencia_view_compra(tx, results) {
             "<td> <h3>" + results.rows.item(i).nome + "</h3> </td >" +
             "<td> <h3>" + results.rows.item(i).qtd_estoque + "</h3> </td >" +
             "<td> <h3>" + results.rows.item(i).preco + "</h3> </td >" +
+
             //envia os dados do pacote comprado para variavel html
             $("#prod_nome").val(results.rows.item(i).nome) +
             $("#prod_qtd").val(results.rows.item(i).qtd_estoque) +
             $("#prod_preco").val(results.rows.item(i).preco) +
             $("#id_carrinho").val(results.rows.item(i).id) +
+
             "<td><br><input id='qtd_para_compra' + type='text' + class='form-control'>" + "" +//campo que recebe a quantidade que sera comprada
             "<td><br><input type='button' class='btn btn-lg btn-warning' value='Confirmar Comprar'+ onclick='insert_carrinho(" + results.rows.item(i).id + ")'>" +
             "</tr>");
@@ -96,6 +106,7 @@ function agencia_view_compra(tx, results) {
 // insere no db carrinho os dados da compra
 function insert_carrinho() {
     db.transaction(carrinho_insert_db, errorDB, successDB)
+    fechar_tela_compra();
 }
 function carrinho_insert_db(tx) {
     //recebe os dados das variaveis html
@@ -109,9 +120,11 @@ function carrinho_insert_db(tx) {
     if (qt_compra == "") {
         alert("Informa a Quantidade que Deseja Comprar");
     } else {
+
         // insere  os dados da compra no db carrinho 
         tx.executeSql('INSERT INTO Carrinho (id_prod,nome,preco,qtd_compra) VALUES ("' + id_carrinho_compra + '","' + nome + '","' + precos + '","' + qt_compra + '")');
         alert("Produto Enviado Para o Carrinho");
+
         //Atualiza a quantidade estoque da quantidade comprada
         tx.executeSql('UPDATE Agencia SET qtd_estoque ="' + update_estoque + '" WHERE id= "' + id_carrinho_compra + '"');
         agencia_view();
@@ -141,21 +154,6 @@ function carrinho_view_data(tx, results) {
     }
 }
 
-
-//Apresentação de dados ------------------+
-function compra_view_data(tx, results) {
-    $("#pacote_compra").empty();
-    var len = results.rows.length;
-
-    for (var i = 0; i < len; i++) {
-        $("#pacote_compra").append("<tr class='compra_item_compra'>" +
-            "<td> <h3>" + results.rows.item(i).nome + "</h3> </td >" +
-            "<td> <h3>" + results.rows.item(i).qtd_estoque + "</h3> </td >" +
-            "<td> <h3>" + results.rows.item(i).preco + "</h3> </td >" +
-            "<td><input type='button' class='btn btn-lg btn-danger' value='x' + onclick='compra_item_delete(" + results.rows.item(i).id + ")'>" +
-            "</tr>");
-    }
-}
 // Funçõe que limpa o carrinho de compras após finalizar compra
 function carrinho_delete() {
     db.transaction(carrinho_delete_db, errorDB, successDB)
@@ -223,6 +221,11 @@ function abrir_tela_lista() {
 function abrir_tela_carrinho() {
     $("#menu").hide();
     $("#tela_carrinho").show();
+}
+
+function abrir_tela_compra() {
+    $("#tela_compra").show();
+    $("#tela_lista").hide();
 }
 
 function fechar_tela_compra() {
