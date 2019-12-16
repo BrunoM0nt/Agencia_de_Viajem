@@ -21,18 +21,19 @@ body {
 }
 
 #Menu_Name{
-    background-color: #333333;
-    color: white;
+    background-color: #402A22;
     font-family: fantasy;
+    color: white;
     margin-left: 90px;
     margin-right: 90px;
-    border-radius: 25px;
+    border-radius: 10px;
 }
 
 #pacotes_listagem, #pacotes_compra, #listagem_compra{
     background-color:#A69D92;
     border-style: solid;
     border-color: #735C32;
+    width: 50%;
 }
 
 /* Portrait layout (default) */
@@ -66,6 +67,34 @@ h1 {
     overflow:visible;
     padding:0px;
     text-align:center;
+}
+
+h2{
+    font-family: fantasy;
+    color: white;
+    background-color: #402A22;
+    border-radius: 10px;
+
+}
+
+h4{
+    color: white;
+    background-color: #402A22;
+    width: 300px;
+    height: 25px;
+    border-radius: 20px;
+    font-size: 20px;
+    text-align: center;
+    border-color: #A69D92;
+    border-style: ridge;
+    border-width: 2px;
+}
+
+th{
+    color: white;
+    background-color:#736B5C;
+    border-color: #735C32;
+    border-radius: 10px;
 }
 
 .event {
